@@ -21,28 +21,43 @@ function Login() {
     setLang(lang === "am" ? "en" : "am");
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await api.post("/login", {
-        username,
-        password
-      });
+  try {
+    const res = await api.post("/login", {
+      username,
+      password
+    });
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("role", res.data.role);
 
-      // ✅ REDIRECT
-      navigate("/dashboard");
+    // ✅ ALL navigation here
+if (res.data.role === "Admin") {
+  navigate("/admin-dashboard");
 
-    } catch (err) {
-      setMessage({ type: "error", text: t("error") });
+} else if (res.data.role === "Supervisor") {
+  navigate("/supervisor-dashboard");
 
-      setTimeout(() => setMessage(null), 3000);
-    }
-  };
+} else if (res.data.role === "Officer") {
+  navigate("/officer-dashboard");
 
+} else if (res.data.role === "Clerk") {
+  navigate("/clerk-dashboard");
+
+} else if (res.data.role === "Auditor") {
+  navigate("/auditor-dashboard");
+
+} else {
+  // fallback safety
+  navigate("/");
+}
+  } catch (err) {
+    setMessage({ type: "error", text: t("error") });
+    setTimeout(() => setMessage(null), 3000);
+  }
+};
   return (
     <div className={styles.container}>
       <div className={styles.card}>

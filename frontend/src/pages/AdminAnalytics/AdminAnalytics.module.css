@@ -1,0 +1,73 @@
+.page {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.lang {
+  cursor: pointer;
+    color: #1f3c88;
+
+}
+.backBtn{
+    background-color: #FFFFFF;
+    color: #1f3c88;
+}
+.backBtn:hover{
+    background-color: #FFFFFF;
+}
+.date{
+    width: 180px;
+}
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.filters button {
+  background: #1f3c88;
+  color: white;
+}
+
+.chart {
+  max-width: 700px;
+  margin: auto;
+}
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: #1f3c88;
+  color: white;
+}
+
+.table td,
+.table th {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+  }
+}

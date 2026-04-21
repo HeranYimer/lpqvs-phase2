@@ -55,7 +55,11 @@ export const translations = {
       serverError: {
         am: "የሰርቨር ስህተት",
         en: "Server error"
-      }
+      },
+      cannotDelete: {
+  am: "ከ10 ዓመት በታች ያሉ ማመልከቻዎችን ማጥፋት አይቻልም",
+  en: "You can't delete application <10 years"
+}
     }
   }
 };

@@ -2,7 +2,7 @@ import express from "express";
 import upload from "../../config/upload.js";
 import { createApplication } from "../../controllers/application/create.controller.js";
 import { requireAuth } from "../../middleware/auth.middleware.js";
-import { checkRole } from "../../middleware/role.middleware.js";
+import { checkPermission } from "../../middleware/permission.middleware.js";
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const uploadMiddleware = upload.fields([
 router.post(
   "/applications",
   requireAuth,
-  checkRole(["Officer"]),
+  checkPermission("createApplication"),
   (req, res) => {
 
     uploadMiddleware(req, res, (err) => {

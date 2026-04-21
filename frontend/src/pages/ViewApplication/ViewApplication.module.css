@@ -94,3 +94,38 @@ button:hover {
   background: #f8d7da;
   color: #721c24;
 }
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd6e2;
+  border-radius: 6px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.decisionBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.decisionBtns button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Approve */
+.decisionBtns button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Reject */
+.decisionBtns button:last-child {
+  background-color: #dc3545;
+  color: white;
+}

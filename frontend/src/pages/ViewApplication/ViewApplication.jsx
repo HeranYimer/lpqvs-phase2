@@ -28,7 +28,7 @@ const toggleLang = () => {
     kebele_comment: "",
     fayida_comment: ""
   });
-
+const [decisionComment, setDecisionComment] = useState("");
 const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -123,17 +123,27 @@ showMessage(
   };
 
   // ================= DECISION =================
-  const makeDecision = async (decision) => {
-    try {
-      await api.post(`/applications/${id}/decision`, {
-        decision
-      });
-      showMessage("Done");
-      loadApplication();
-    } catch {
-      showMessage("Error", "error");
-    }
-  };
+const makeDecision = async (decision) => {
+  try {
+    await api.post(`/applications/${id}/decision`, {
+      decision,
+      comment: decisionComment
+    });
+
+    showMessage(
+      decision === "Approved"
+        ? t.successApprove
+        : t.successReject,
+      "success"
+    );
+
+    setDecisionComment("");
+    loadApplication();
+  } catch (err) {
+    console.error(err);
+    showMessage(t.errorDecision, "error");
+  }
+};
 
   if (!application) return <p>Loading...</p>;
 
@@ -175,25 +185,33 @@ showMessage(
 </div>
 
       {/* DOCUMENTS */}
-      <h3>{t.documents}</h3>
-     <div className={`${styles.card} ${styles.docs}`}>
-  {docs.length === 0 ? (
-    <p>{t.noDocs}</p>
-  ) : (
-    docs.map((doc, i) => (
-      <a key={i}
-         href={`http://localhost:5000/uploads/${doc.file_path}`}
-         target="_blank">
-        {
-  doc.doc_type === "signature" ? t.signature :
-  doc.doc_type === "fayida_id" ? t.fayida_id_doc :
-  doc.doc_type === "kebele_id" ? t.kebele_id_doc :
-  doc.doc_type
-}
-      </a>
-    ))
-  )}
-</div>
+  {role === "officer" || role === "clerk" && (
+  <>
+    <h3>{t.documents}</h3>
+
+    <div className={`${styles.card} ${styles.docs}`}>
+      {docs.length === 0 ? (
+        <p>{t.noDocs}</p>
+      ) : (
+        docs.map((doc, i) => (
+          <a
+            key={i}
+            href={`http://localhost:5000/uploads/${doc.file_path}`}
+            target="_blank"
+          >
+            {
+              doc.doc_type === "signature" ? t.signature :
+              doc.doc_type === "fayida_id" ? t.fayida_id_doc :
+              doc.doc_type === "kebele_id" ? t.kebele_id_doc :
+              doc.doc_type
+            }
+          </a>
+        ))
+      )}
+    </div>
+  </>
+)}
+    
 
       {/* CHECKLIST */}
       {role === "officer" && (
@@ -232,19 +250,28 @@ showMessage(
       )}
 
       {/* DECISION */}
-      {role === "supervisor" && (
-        <div className={styles.card}>
-          <h3>{t.decision}</h3>
+    {role === "supervisor" && (
+  <div className={styles.card}>
+    <h3>{t.decision}</h3>
 
-          <button onClick={() => makeDecision("Approved")}>
-            {t.approve}
-          </button>
+  <textarea
+  className={styles.textarea}
+  placeholder={t.writeComment}
+  value={decisionComment}
+  onChange={(e) => setDecisionComment(e.target.value)}
+/>
 
-          <button onClick={() => makeDecision("Rejected")}>
-            {t.reject}
-          </button>
-        </div>
-      )}
+    <div className={styles.decisionBtns}>
+      <button onClick={() => makeDecision("Approved")}>
+        {t.approve}
+      </button>
+
+      <button onClick={() => makeDecision("Rejected")}>
+        {t.reject}
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }

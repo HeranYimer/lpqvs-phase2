@@ -1,4 +1,5 @@
 import db from "../../config/db.js";
+import { verifyFayidaID } from "../../services/fayida.service.js";
 
 export const createApplication = async (req, res) => {
 
@@ -16,28 +17,76 @@ export const createApplication = async (req, res) => {
 
     if (!officerId) {
       return res.status(401).json({
-       message: {
-  am: "እባክዎ ይግቡ (ያልተፈቀደ)",
-  en: "Unauthorized"
-}
+        message: {
+          am: "እባክዎ ይግቡ (ያልተፈቀደ)",
+          en: "Unauthorized"
+        }
       });
     }
 
-    // ✅ Fayida validation
+    // =========================================
+    // 🔍 FAYIDA MOCK VERIFICATION
+    // =========================================
     if (fayida_id) {
-      const isValid = /^[0-9]{12}$/.test(fayida_id);
 
-      if (!isValid) {
+      // 1. format validation
+      const isValidFormat = /^[0-9]{12}$/.test(fayida_id);
+
+      if (!isValidFormat) {
         return res.status(400).json({
           message: {
-  am: "ትክክለኛ የፋይዳ መታወቂያ ያስገቡ",
-  en: "Enter a valid Fayida ID"
-}
+            am: "ትክክለኛ የፋይዳ መታወቂያ ያስገቡ",
+            en: "Enter a valid Fayida ID"
+          }
+        });
+      }
+
+      // 2. CALL MOCK SERVICE
+      const fayidaResult = await verifyFayidaID(fayida_id);
+
+      // ❌ not found
+      if (!fayidaResult.data) {
+        return res.status(400).json({
+          message: {
+            am: "ፋይዳ መለያ አልተገኘም",
+            en: "Fayida ID not found"
+          }
+        });
+      }
+
+      // 3. NAME MATCH CHECK
+      if (
+        fayidaResult.data.fullName &&
+        name &&
+        fayidaResult.data.fullName.toLowerCase() !== name.toLowerCase()
+      ) {
+        return res.status(400).json({
+          message: {
+            am: "የፋይዳ መረጃ ከስም ጋር አይዛመድም",
+            en: "Fayida data does not match name"
+          }
+        });
+      }
+
+      // 4. DATE OF BIRTH CHECK (FIXED INSIDE SCOPE)
+      if (
+        fayidaResult.data.dateOfBirth &&
+        date_of_birth &&
+        fayidaResult.data.dateOfBirth !== date_of_birth
+      ) {
+        return res.status(400).json({
+          message: {
+            am: "የትውልድ ቀን ከፋይዳ መረጃ ጋር አይዛመድም",
+            en: "Date of birth does not match Fayida record"
+          }
         });
       }
     }
 
-    // ✅ Check Fayida duplicate
+    // =========================
+    // CHECK DUPLICATES
+    // =========================
+
     if (fayida_id) {
       const [existing] = await db.query(
         "SELECT * FROM applicants WHERE fayida_id = ?",
@@ -47,14 +96,13 @@ export const createApplication = async (req, res) => {
       if (existing.length > 0) {
         return res.status(400).json({
           message: {
-  am: "ይህ Fayida መለያ ቀድሞ ተመዝግቧል",
-  en: "This Fayida ID already exists"
-}
+            am: "ይህ Fayida መለያ ቀድሞ ተመዝግቧል",
+            en: "This Fayida ID already exists"
+          }
         });
       }
     }
 
-    // ✅ Check fallback duplicate
     const [duplicate] = await db.query(
       `SELECT * FROM applicants 
        WHERE name = ? AND kebele_id = ? AND date_of_birth = ?`,
@@ -64,13 +112,16 @@ export const createApplication = async (req, res) => {
     if (duplicate.length > 0) {
       return res.status(400).json({
         message: {
-  am: "ተመሳሳይ አመልካች አለ",
-  en: "Duplicate applicant found"
-}
+          am: "ተመሳሳይ አመልካች አለ",
+          en: "Duplicate applicant found"
+        }
       });
     }
 
-    // ✅ Insert applicant
+    // =========================
+    // INSERT APPLICANT
+    // =========================
+
     const [result] = await db.query(
       `INSERT INTO applicants 
       (name,fayida_id,kebele_id,address,marital_status,date_of_birth)
@@ -80,7 +131,10 @@ export const createApplication = async (req, res) => {
 
     const applicantId = result.insertId;
 
-    // ✅ Insert application
+    // =========================
+    // INSERT APPLICATION
+    // =========================
+
     const [appResult] = await db.query(
       "INSERT INTO applications (applicant_id, status, officer_id) VALUES (?,?,?)",
       [applicantId, "Pending", officerId]
@@ -88,8 +142,12 @@ export const createApplication = async (req, res) => {
 
     const applicationId = appResult.insertId;
 
-    // ✅ FILES
+    // =========================
+    // FILE UPLOADS
+    // =========================
+
     const files = req.files;
+
     if (files) {
       const docs = [];
 
@@ -113,20 +171,25 @@ export const createApplication = async (req, res) => {
       }
     }
 
-  res.json({
-  message: {
-    am: "ማመልከቻ ተመዝግቧል",
-    en: "Application submitted successfully"
-  }
-});
+    // =========================
+    // SUCCESS RESPONSE
+    // =========================
+
+    res.json({
+      message: {
+        am: "ማመልከቻ ተመዝግቧል",
+        en: "Application submitted successfully"
+      }
+    });
 
   } catch (err) {
     console.error(err);
-  res.status(500).json({
-  message: {
-    am: "የሰርቨር ስህተት",
-    en: "Server error"
-  }
-});
+
+    res.status(500).json({
+      message: {
+        am: "የሰርቨር ስህተት",
+        en: "Server error"
+      }
+    });
   }
 };

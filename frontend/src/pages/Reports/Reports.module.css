@@ -1,0 +1,214 @@
+.page {
+  padding: 25px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.header {
+  background: #1f3c88;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  color: white;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+button{
+  width: 150px;
+}
+/* .headerBtns{
+    padding: 15px 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  display: flex;
+    justify-content: space-between;
+} */
+.backBtn{
+  background-color: #f4f6f9;
+  color: #1f3c88;
+}
+.backBtn:hover{
+  background-color: #f4f6f9;
+}
+.lang {
+  cursor: pointer;
+  color: #1f3c88;
+  background-color: #f4f6f9;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  /* padding: 10px; */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.filters button {
+  background: #1f3c88;
+  color: white;
+  cursor: pointer;
+}
+.field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field label {
+  font-weight: 500;
+  color: #1f3c88;
+}
+.card {
+  background: #ffffff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.filterBtn{
+   padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.exportBtns {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Last 7 Days */
+.exportBtns button:nth-child(1) {
+  background: #1f3c88;
+  color: white;
+}
+
+/* Excel */
+.exportBtns button:nth-child(2) {
+  background: #1f3c88;
+  color: white;
+  width: 80px;
+}
+
+/* PDF */
+.exportBtns button:nth-child(3) {
+  background: #1f3c88;
+  color: white;
+  width: 80px;
+}
+
+.exportBtns button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.exportBtns button:hover {
+  opacity: 0.9;
+}
+.chartCard {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tableCard {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #1f3c88;
+  color: white;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.noData {
+  text-align: center;
+  color: #777;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  table, thead, tbody, tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  tbody td {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #1f3c88;
+    min-width: 120px;
+  }
+}

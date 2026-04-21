@@ -89,7 +89,20 @@ function UploadDocuments() {
   showToast(getText(t.toast.uploadError), "error");
 }
   };
+const role = (localStorage.getItem("role") || "")
+  .toLowerCase()
+  .trim();
 
+const routes = {
+  officer: "/officer-dashboard",
+  clerk: "/clerk-dashboard",
+  supervisor: "/supervisor-dashboard",
+  admin: "/admin-dashboard",
+};
+console.log("ROLE FROM STORAGE:", localStorage.getItem("role"));
+const goBack = () => {
+  navigate(routes[role] || "/");
+};
   return (
     <div className={styles.page}>
       {/* TOAST */}
@@ -105,11 +118,10 @@ function UploadDocuments() {
       <div className={styles.header}>
         <button
           className={styles.backbtn}
-          onClick={() => navigate("/dashboard")}
-        >
+          onClick={goBack}>
+        
           {t.back[lang]}
         </button>
-
         <span onClick={toggleLang} className={styles.lang}>
           {lang === "am" ? "English" : "አማርኛ"}
         </span>

@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyApplication } from "../../controllers/application/verify.controller.js";
-import { checkRole } from "../../middleware/role.middleware.js";
+import { checkPermission } from "../../middleware/permission.middleware.js";
 import { requireAuth } from "../../middleware/auth.middleware.js";
 
 const router = express.Router();
@@ -8,7 +8,7 @@ const router = express.Router();
 router.post(
   "/applications/:id/verify",
   requireAuth,
-  checkRole(["Officer"]),
+  checkPermission("performVerification"),
   verifyApplication
 );
 

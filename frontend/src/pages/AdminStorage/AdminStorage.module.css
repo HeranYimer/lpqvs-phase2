@@ -1,0 +1,57 @@
+.page {
+  padding: 25px;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* .header button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+} */
+.backBtn{
+    background-color: #f4f6f9;
+    color: #1f3c88;
+}
+.backBtn:hover{
+    background-color: #f4f6f9;
+}
+.lang {
+  cursor: pointer;
+  font-weight: bold;
+    color: #1f3c88;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.value {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 15px;
+  color: #1f3c88;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .card {
+    width: 100%;
+  }
+}

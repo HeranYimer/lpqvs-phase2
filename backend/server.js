@@ -15,6 +15,9 @@ import dashboardRoutes from "./routes/report/dashboard.routes.js";
 import filterRoutes from "./routes/report/filter.routes.js";
 import summaryRoutes from "./routes/report/summary.routes.js";
 import adminRoutes from "./routes/report/admin.routes.js";
+import storageRoutes from "./routes/report/storage.routes.js";
+import settingsRoutes from "./routes/report/settings.routes.js"
+import fayidaRoutes from "./routes/fayida.routes.js";
 dotenv.config();
 
 const app = express();
@@ -39,7 +42,9 @@ app.use("/api/reports", summaryRoutes);
 app.use("/api/", adminRoutes);
 // ✅ STATIC FILES
 app.use("/uploads", express.static("uploads"));
-
+app.use("/api", storageRoutes);
+app.use("/api", settingsRoutes);
+app.use("/api", fayidaRoutes);
 // ✅ GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
 
@@ -67,7 +72,7 @@ app.listen(PORT, async () => {
     await db.query("SELECT 1");
     console.log("Database connected successfully");
   } catch (err) {
-    console.error("Database connection failed:", err.message);
+    console.error("Database cnnection failed:", err);
   }
 
 });

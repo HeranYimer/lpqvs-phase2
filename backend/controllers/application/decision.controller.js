@@ -39,14 +39,14 @@ export const makeDecision = async (req, res) => {
     const application = appRows[0];
 
     // ================= UPDATE APPLICATION =================
-    await db.query(
-      `UPDATE applications 
-       SET status = ?, 
-           decision_date = NOW(), 
-           notes = ?
-       WHERE id = ?`,
-      [decision, comment || null, applicationId]
-    );
+   await db.query(
+  `UPDATE applications 
+   SET status = ?, 
+       notes = ?, 
+       decision_date = NOW()
+   WHERE id = ?`,
+  [decision, comment || null, applicationId]
+);
 
     // ================= AUDIT LOG (SRS COMPLIANT) =================
     await db.query(

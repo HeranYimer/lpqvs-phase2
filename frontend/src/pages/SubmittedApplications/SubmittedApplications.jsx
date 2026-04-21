@@ -32,8 +32,13 @@ const toggleLang = () => {
       setApplications(res.data);
     //   console.log(res.data);
     } catch (err) {
-      showToast(t.toast.loadError[lang], "error");
-    }
+  const msg = err.response?.data?.message;
+
+  showToast(
+    msg || t.toast.serverError[lang],
+    "error"
+  );
+}
   };
 
   useEffect(() => {
@@ -46,11 +51,24 @@ const toggleLang = () => {
       await api.delete(`/applications/${id}`);
       showToast(t.toast.deleteSuccess[lang], "success");
       loadApplications();
-    } catch (err) {
-      showToast(t.toast.serverError[lang], "error");
-    }
-  };
+    }catch (err) {
+  const code = err.response?.data?.code;
 
+  if (code === "UNDER_10_YEARS") {
+    return showToast(t.toast.cannotDelete[lang], "error");
+  }
+
+  showToast(t.toast.serverError[lang], "error");
+}
+  };
+const goBack = () => {
+  if (role === "officer") return navigate("/officer-dashboard");
+  if (role === "supervisor") return navigate("/supervisor-dashboard");
+  if (role === "admin") return navigate("/admin-dashboard");
+  if (role === "clerk") return navigate("/clerk-dashboard");
+
+  navigate("/"); // fallback
+};
   return (
     <div className={styles.page}>
 
@@ -65,9 +83,9 @@ const toggleLang = () => {
 
         {/* HEADER */}
             <div className={styles.header}>
-              <button className={styles.backbtn} onClick={() => navigate("/dashboard")}>
-                {t.back[lang]}
-              </button>
+             <button className={styles.backbtn} onClick={goBack}>
+  {t.back[lang]}
+</button>
       
               <span onClick={toggleLang} className={styles.lang}>
                 {lang === "am" ? "English" : "አማርኛ"}

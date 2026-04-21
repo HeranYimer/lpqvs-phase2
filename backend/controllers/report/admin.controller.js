@@ -67,9 +67,12 @@ export const deleteApplication = async (req, res) => {
 
     // 🚨 RULE: MUST BE > 10 YEARS
     if (diffYears < 10) {
+      // return res.status(403).json({
+      //   message: "This application is not older than 10 years"
+      // });
       return res.status(403).json({
-        message: "This application is not older than 10 years"
-      });
+  code: "UNDER_10_YEARS"
+});
     }
 
     const applicantId = result[0].applicant_id;
