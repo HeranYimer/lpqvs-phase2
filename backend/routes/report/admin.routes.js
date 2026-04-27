@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/reports/admin-overview", requireAuth, checkRole(["Admin"]), getAdminOverview);
 
-router.get("/reports/audit-logs", requireAuth, checkRole(["Admin"]), getAuditLogs);
+router.get("/reports/audit-logs", requireAuth, checkRole(["Admin", "Auditor"]), getAuditLogs);
 
 router.delete("/applications/:id", requireAuth, checkRole(["Admin"]), deleteApplication);
 export default router;

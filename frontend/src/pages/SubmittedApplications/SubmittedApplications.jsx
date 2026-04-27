@@ -9,8 +9,10 @@ function SubmittedApplications() {
 
   const [applications, setApplications] = useState([]);
   const [toast, setToast] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+const itemsPerPage = 5; // you can change to 10 later
   const [confirm, setConfirm] = useState({ show: false, id: null });
-
+const [search, setSearch] = useState("");
   const role = (localStorage.getItem("role") || "").toLowerCase();
   const lang = localStorage.getItem("lang") || "am";
 
@@ -44,7 +46,9 @@ const toggleLang = () => {
   useEffect(() => {
     loadApplications();
   }, []);
-
+useEffect(() => {
+  setCurrentPage(1);
+}, [search]);
   // 🗑 DELETE
   const deleteApplication = async (id) => {
     try {
@@ -66,9 +70,27 @@ const goBack = () => {
   if (role === "supervisor") return navigate("/supervisor-dashboard");
   if (role === "admin") return navigate("/admin-dashboard");
   if (role === "clerk") return navigate("/clerk-dashboard");
-
+ if (role === "auditor") return navigate("/auditor-dashboard");
   navigate("/"); // fallback
 };
+const filteredApplications = applications.filter((app) => {
+  const searchText = search.toLowerCase();
+
+  return (
+    (app.name || "").toLowerCase().includes(searchText) ||
+    (app.address || "").toLowerCase().includes(searchText) ||
+    (app.status || "").toLowerCase().includes(searchText)
+  );
+});
+const indexOfLast = currentPage * itemsPerPage;
+const indexOfFirst = indexOfLast - itemsPerPage;
+
+const currentApplications = filteredApplications.slice(
+  indexOfFirst,
+  indexOfLast
+);
+
+const totalPages = Math.ceil(filteredApplications.length / itemsPerPage);
   return (
     <div className={styles.page}>
 
@@ -94,7 +116,17 @@ const goBack = () => {
 
       {/* TITLE */}
       <h2 className={styles.title}>{t.title[lang]}</h2>
-
+<div className={styles.searchBox}>
+  <input
+    type="text"
+    placeholder={
+  t.search?.[lang] || "Search by name, status, or address..."
+}
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className={styles.searchInput}
+  />
+</div>
       {/* TABLE */}
       <table className={styles.table}>
         <thead>
@@ -107,39 +139,79 @@ const goBack = () => {
           </tr>
         </thead>
 
-        <tbody>
-          {applications.map((app) => (
-            <tr key={app.id}>
-              <td>{app.id}</td>
-              <td>{app.name}</td>
-              <td>{app.status}</td>
+       <tbody>
+        
+  {filteredApplications.length === 0 ? (
+    <tr>
+      <td colSpan="5" className={styles.noData}>
+        {search
+          ? (lang === "am"
+              ? "ምንም ውጤት አልተገኘም"
+              : "No matching applications found")
+          : (lang === "am"
+              ? "ምንም ውሂብ የለም"
+              : "No applications available")}
+      </td>
+    </tr>
+  ) : (
+    currentApplications.map((app) => (
+      <tr key={app.id}>
+        <td>{app.id}</td>
+        <td>{app.name}</td>
+        <td>{app.status}</td>
 
-              <td>
-                <span
-                  className={styles.actionBtn}
-                  onClick={() =>
-                    navigate(`/view-application/${app.id}`)
-                  }
-                >
-                  {t.view[lang]}
-                </span>
+        <td>
+  <span
+    className={styles.actionBtn}
+    onClick={() => navigate(`/view-application/${app.id}`)}
+  >
+    {t.view[lang]}
+  </span>
 
-                {role === "admin" && (
-                  <span
-                    className={styles.deleteBtn}
-                    onClick={() => setConfirm({ show: true, id: app.id })}
-                  >
-                    {t.delete[lang]}
-                  </span>
-                )}
-              </td>
+  {/* ✅ EDIT BUTTON */}
+  {(role === "officer" || role === "admin") && (
+  <span
+  className={styles.editBtn}
+  onClick={() => navigate(`/edit-application/${app.id}`)}
+>
+  {t.edit[lang]}
+</span>
+  )}
+          {role === "admin" && (
+            <span
+              className={styles.deleteBtn}
+              onClick={() => setConfirm({ show: true, id: app.id })}
+            >
+              {t.delete[lang]}
+            </span>
+          )}
+        </td>
 
-              <td>{app.address}</td>
-            </tr>
-          ))}
-        </tbody>
+        <td>{app.address}</td>
+      </tr>
+    ))
+  )}
+</tbody>
       </table>
+<div className={styles.pagination}>
+  <button
+    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+    disabled={currentPage === 1}
+  >
+    {t.pagination.prev[lang]}
+  </button>
 
+  <span>
+    {t.pagination.page[lang]} {currentPage} {t.pagination.of[lang]} {totalPages || 1}
+  </span>
+
+  <button
+    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+    disabled={currentPage === totalPages || totalPages === 0}
+  >
+    {t.pagination.next[lang]}
+  </button>
+</div>
       {/* MODAL */}
       {confirm.show && (
         <div className={styles.modal}>

@@ -185,7 +185,6 @@ const makeDecision = async (decision) => {
 </div>
 
       {/* DOCUMENTS */}
-  {role === "officer" || role === "clerk" && (
   <>
     <h3>{t.documents}</h3>
 
@@ -210,8 +209,6 @@ const makeDecision = async (decision) => {
       )}
     </div>
   </>
-)}
-    
 
       {/* CHECKLIST */}
       {role === "officer" && (

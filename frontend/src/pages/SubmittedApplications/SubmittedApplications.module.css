@@ -58,7 +58,7 @@
   margin-right: 10px;
   color: #1f3c88;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .deleteBtn {
@@ -117,4 +117,66 @@
   display: flex;
   justify-content: space-around;
   margin-top: 15px;
+}
+.searchBox {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchInput {
+  width: 280px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.searchInput:focus {
+  border-color: #1f3c88;
+  box-shadow: 0 0 4px rgba(31, 60, 136, 0.3);
+}
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  .searchBox {
+    justify-content: center;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  border: none;
+  background: #1f3c88;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: bold;
+}
+.editBtn {
+  margin-right: 10px;
+  color: #28a745;
+  cursor: pointer;
+  text-decoration: none;
 }

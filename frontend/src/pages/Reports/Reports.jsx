@@ -128,14 +128,23 @@ function Reports() {
   useEffect(() => {
     renderChart(data);
   }, [chartType]);
+const goBack = () => {
+  const role = (localStorage.getItem("role") || "").toLowerCase();
 
+  if (role === "officer") return navigate("/officer-dashboard");
+  if (role === "supervisor") return navigate("/supervisor-dashboard");
+  if (role === "admin") return navigate("/admin-dashboard");
+  if (role === "data entry clerk") return navigate("/clerk-dashboard");
+  if (role === "auditor") return navigate("/auditor-dashboard");
+
+  navigate("/");
+};
   return (
     <div className={styles.page}>
   
         <button
     className={styles.backBtn}
-    onClick={() => navigate("/supervisor-dashboard")}
-  >
+   onClick={goBack}>
     {t.back}
   </button>
    

@@ -64,6 +64,7 @@ export const getSingleApplication = async (req, res) => {
         applications.notes,
         applications.officer_id,
         applicants.name,
+        applicants.date_of_birth,
         applicants.address,
         applicants.fayida_id,
         applicants.kebele_id,

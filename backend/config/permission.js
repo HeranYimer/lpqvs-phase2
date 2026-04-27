@@ -4,5 +4,6 @@ export const permissions = {
   performVerification: ["Officer", "Supervisor"],
   makeDecision: ["Supervisor", "Admin"],
   viewApplications: ["Officer", "Clerk", "Supervisor", "Auditor", "Admin"],
-  viewDocuments: ["Officer", "Clerk", "Supervisor", "Auditor", "Admin"]
+  viewDocuments: ["Officer", "Clerk", "Supervisor", "Auditor", "Admin"],
+  updateApplications: ["Officer", "Supervisor", "Admin"]
 };

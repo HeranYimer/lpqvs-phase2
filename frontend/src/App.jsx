@@ -16,6 +16,7 @@ import AdminStorage from "./pages/AdminStorage/AdminStorage";
 import AdminSettings from "./pages/AdminSettings/AdminSettings";
 import ClerkDashboard from "./pages/ClerkDashboard/ClerkDashboard";
 import AuditorDashboard from "./pages/AuditorDashboard/AuditorDashboard";
+import EditApplication from "./pages/EditApplication/EditApplication";
 function App() {
   return (
     <BrowserRouter>
@@ -38,6 +39,7 @@ function App() {
       <Route path="/admin-settings" element={<AdminSettings />} />
       <Route path="/clerk-dashboard" element={<ClerkDashboard />} />
 <Route path="/auditor-dashboard" element={<AuditorDashboard />} />
+<Route path="/edit-application/:id" element={<EditApplication />} />
       </Routes>
     </BrowserRouter>
   );

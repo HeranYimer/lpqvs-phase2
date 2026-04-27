@@ -143,63 +143,76 @@ const goBack = () => {
       )}
 
       {/* FORM */}
-      <form onSubmit={handleSubmit} className={styles.form}>
+     <form onSubmit={handleSubmit} className={styles.form}>
 
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder={t("name")}
-          required
-        />
+  {/* NAME */}
+  <label>{t("name")}</label>
+  <input
+    name="name"
+    value={form.name}
+    onChange={handleChange}
+    required
+  />
 
-        <input
-          type="date"
-          name="date_of_birth"
-          value={form.date_of_birth}
-          onChange={handleChange}
-          required
-        />
+  {/* DOB */}
+  <label>{t("dob")}</label>
+  <input
+    type="date"
+    name="date_of_birth"
+    value={form.date_of_birth}
+    onChange={handleChange}
+    required
+  />
 
-        <input
-          name="fayida_id"
-          value={form.fayida_id}
-          onChange={handleChange}
-          placeholder={t("fayida")}
-        />
+  {/* FAYIDA */}
+  <label>{t("fayida")}</label>
+  <input
+    name="fayida_id"
+    value={form.fayida_id}
+    onChange={handleChange}
+  />
 
-        <input
-          name="kebele_id"
-          value={form.kebele_id}
-          onChange={handleChange}
-          placeholder={t("kebele")}
-          required
-        />
+  {/* KEBELE */}
+  <label>{t("kebele")}</label>
+  <input
+    name="kebele_id"
+    value={form.kebele_id}
+    onChange={handleChange}
+    required
+  />
 
-        <input
-          name="address"
-          value={form.address}
-          onChange={handleChange}
-          placeholder={t("address")}
-          required
-        />
+  {/* ADDRESS */}
+  <label>{t("address")}</label>
+  <input
+    name="address"
+    value={form.address}
+    onChange={handleChange}
+    required
+  />
 
-        <label>{t("marital")}</label>
-<select name="marital_status" onChange={handleChange}>
-          <option value="single">Single</option>
-          <option value="married">Married</option>
-          <option value="divorced">Divorced</option>
-          <option value="widowed">Widowed</option>
-        </select>
+  {/* MARITAL */}
+  <label>{t("marital")}</label>
+  <select
+    name="marital_status"
+    value={form.marital_status}
+    onChange={handleChange}
+  >
+    {Object.keys(translations.maritalOptions).map((key) => (
+      <option key={key} value={key}>
+        {translations.maritalOptions[key][lang]}
+      </option>
+    ))}
+  </select>
 
-        <h3>{t("upload")}</h3>
+  {/* FILE SECTION */}
+  <h3>{t("upload")}</h3>
 
-        <input type="file" name="signature" onChange={handleFile} />
-        <input type="file" name="fayida_doc" onChange={handleFile} />
-        <input type="file" name="kebele_doc" onChange={handleFile} />
+  <input type="file" name="signature" onChange={handleFile} />
+  <input type="file" name="fayida_doc" onChange={handleFile} />
+  <input type="file" name="kebele_doc" onChange={handleFile} />
 
-        <button>{t("submit")}</button>
-      </form>
+  <button>{t("submit")}</button>
+</form>
     </div>
   );
 }

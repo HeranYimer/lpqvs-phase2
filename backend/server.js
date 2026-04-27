@@ -18,6 +18,8 @@ import adminRoutes from "./routes/report/admin.routes.js";
 import storageRoutes from "./routes/report/storage.routes.js";
 import settingsRoutes from "./routes/report/settings.routes.js"
 import fayidaRoutes from "./routes/fayida.routes.js";
+import editRoutes from "./routes/application/edit.routes.js";
+
 dotenv.config();
 
 const app = express();
@@ -45,6 +47,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api", storageRoutes);
 app.use("/api", settingsRoutes);
 app.use("/api", fayidaRoutes);
+app.use("/api", editRoutes);
 // ✅ GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
 

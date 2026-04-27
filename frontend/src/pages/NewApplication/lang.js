@@ -60,5 +60,11 @@ export const translations = {
   fayidaError: {
     am: "ትክክለኛ 12 አሃዝ ያለው ፋይዳ ያስገቡ",
     en: "Fayida must be 12 digits"
-  }
+  },
+  maritalOptions: {
+  single: { am: "ነጠላ", en: "Single" },
+  married: { am: "ያገባ", en: "Married" },
+  divorced: { am: "የተፋታ", en: "Divorced" },
+  widowed: { am: "ባል/ሚስት የሞተበት", en: "Widowed" }
+}
 };

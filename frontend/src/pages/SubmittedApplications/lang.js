@@ -9,6 +9,10 @@ export const translations = {
       am: "← ተመለስ",
       en: "← Back"
     },
+search: {
+  am: "በስም፣ ሁኔታ ወይም አድራሻ ፈልግ...",
+  en: "Search by name, status, or address..."
+},
 
     table: {
       id: { am: "መለያ", en: "ID" },
@@ -17,11 +21,32 @@ export const translations = {
       action: { am: "ተግባር", en: "Action" },
       address: { am: "አድራሻ", en: "Address" }
     },
-
+  pagination: {
+    page: {
+      am: "ገጽ",
+      en: "Page"
+    },
+    of: {
+      am: "ከ",
+      en: "of"
+    },
+    prev: {
+      am: "ቀዳሚ",
+      en: "Prev"
+    },
+    next: {
+      am: "ቀጣይ",
+      en: "Next"
+    }
+  },
     view: {
       am: "ዝርዝር ይመልከቱ",
       en: "View"
     },
+    edit: {
+  am: "አርትዕ",
+  en: "Edit"
+},
 
     delete: {
       am: "ሰርዝ",

@@ -81,7 +81,9 @@ function AdminDashboard() {
             <li>
               <Link to="/applications/submitted">{t.applications}</Link>
             </li>
-
+ <li>
+              <Link to="/new-application">{t.create}</Link>
+            </li>
             <li>
               <Link to="/admin-analytics">{t.dashboard}</Link>
             </li>
